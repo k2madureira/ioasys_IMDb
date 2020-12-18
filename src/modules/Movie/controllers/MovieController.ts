@@ -141,4 +141,46 @@ export default class MovieController {
       return response.status(500).json({ error: 'Error' });
     }
   }
+
+  public async vote(
+    request: Request,
+    response: Response,
+  ): Promise<Response<ICreateMovieDTO> | Response> {
+    try {
+      const { score } = request.body;
+      const { id: movie_id } = request.params;
+      const user_id = request.user.id;
+
+      const movie = await Movie.findOne({
+        where: { id },
+      });
+
+      if (!movie) {
+        return response.status(401).json({ error: 'Movie ID not found!' });
+      }
+
+      const updatedMovie = {
+        tt: tt || movie.tt,
+        title: title || movie.title,
+        director: director || movie.director,
+        genre: genre || movie.genre,
+        actors: actors || movie.actors,
+      };
+
+      await Movie.update(updatedMovie, { where: { id } });
+
+      return response.status(200).json({
+        User: {
+          id,
+          tt: updatedMovie.tt,
+          title: updatedMovie.title,
+          director: updatedMovie.director,
+          genre: updatedMovie.genre,
+          actors: updatedMovie.actors,
+        },
+      });
+    } catch (error) {
+      return response.status(500).json({ error: 'Error' });
+    }
+  }
 }
