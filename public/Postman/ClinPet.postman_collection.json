@@ -1,0 +1,488 @@
+{
+	"info": {
+		"_postman_id": "bc3b2fd2-128c-4f65-a446-a183b7a360e6",
+		"name": "ClinPet",
+		"description": "Appointments for you pet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "MEDIC",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"EXAMPLE\",\n\t\"specialty_id\": \"ccf1167d-df15-4281-a68c-3830626b98df\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/MEDIC",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"MEDIC"
+							]
+						},
+						"description": "Create an new Medic"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"EXAMPLE UPDATED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/medic/a232063a-5640-48ce-9251-a02c00a7e174",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"medic",
+								"a232063a-5640-48ce-9251-a02c00a7e174"
+							]
+						},
+						"description": "Update an Medic"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/medic/a232063a-5640-48ce-9251-a02c00a7e174",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"medic",
+								"a232063a-5640-48ce-9251-a02c00a7e174"
+							]
+						},
+						"description": "Delete Medic"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/medic",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"medic"
+							]
+						},
+						"description": "List all Medics"
+					},
+					"response": []
+				}
+			],
+			"description": "All endpoints for module medic",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8e1c1364-4797-468c-9ec8-346c7b880fcd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "573f7443-6ca3-42f9-a028-f94f9336963c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "APPOINTMENT",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Jhon\",\r\n  \"species\": \"Dog\",\r\n  \"breed\": \"\",\r\n  \"urgent\": true,\r\n  \"medic_id\":\"a232063a-5640-48ce-9251-a02c00a7e174\",\r\n  \"specialty_id\": \"fcdb112c-e670-47b1-b44d-d31126ec304a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/appointment",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"appointment"
+							]
+						},
+						"description": "Create an new appointment"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Jony\",\r\n\t\"urgent\": false,\r\n\t\"status\": \"Pendente\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/appointment/54dfc1d2-cf59-482c-a8ae-ebf6b3b499fe",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"appointment",
+								"54dfc1d2-cf59-482c-a8ae-ebf6b3b499fe"
+							]
+						},
+						"description": "Update an appointment"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/appointment/54dfc1d2-cf59-482c-a8ae-ebf6b3b499fe",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"appointment",
+								"54dfc1d2-cf59-482c-a8ae-ebf6b3b499fe"
+							]
+						},
+						"description": "Delete an appointment"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/appointment",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"appointment"
+							]
+						},
+						"description": "List all appointments"
+					},
+					"response": []
+				},
+				{
+					"name": "List appointment for an medic",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/appointment/medic/a232063a-5640-48ce-9251-a02c00a7e174",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"appointment",
+								"medic",
+								"a232063a-5640-48ce-9251-a02c00a7e174"
+							]
+						},
+						"description": "List an appointment for the medic"
+					},
+					"response": []
+				},
+				{
+					"name": "List all appointment for an medic Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/appointment/medic/a232063a-5640-48ce-9251-a02c00a7e174/all",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"appointment",
+								"medic",
+								"a232063a-5640-48ce-9251-a02c00a7e174",
+								"all"
+							]
+						},
+						"description": "List all appointments for the medic"
+					},
+					"response": []
+				}
+			],
+			"description": "All endpoints for module appointment",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4817ebf1-1b22-4932-8e07-928021a97b83",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf12978a-326a-4836-83f8-55828382892f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "SPECIALTY",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"description\": \"Cargiologista\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/specialty",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"specialty"
+							]
+						},
+						"description": "Create an new Specialty"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://clinpet.herokuapp.com/specialty",
+							"protocol": "https",
+							"host": [
+								"clinpet",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"specialty"
+							]
+						},
+						"description": "List all specialties"
+					},
+					"response": []
+				}
+			],
+			"description": "All endpoints for module specialty",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2b61640b-b3f0-429c-937f-c18720601fda",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "28ec2cb0-5138-4514-bf6e-0b3eeb267a6f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
