@@ -12,6 +12,8 @@ class Movie extends Model {
 
   public title!: string;
 
+  public year!: string;
+
   public director!: string;
 
   public genre!: string;
@@ -43,6 +45,7 @@ Movie.init(
     },
     tt: Sequelize.STRING,
     title: Sequelize.STRING,
+    year: Sequelize.STRING,
     director: Sequelize.STRING,
     genre: Sequelize.STRING,
     actors: Sequelize.STRING,

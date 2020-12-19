@@ -19,6 +19,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      year: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       director: {
         type: Sequelize.STRING,
         allowNull: true,

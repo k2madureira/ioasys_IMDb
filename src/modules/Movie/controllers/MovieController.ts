@@ -9,6 +9,7 @@ interface IMovie {
   id: number;
   tt: string;
   title: string;
+  year: string;
   director: string;
   genre: string;
   actors: string;
@@ -47,7 +48,6 @@ export default class MovieController {
 
       return response.json(listMovies);
     } catch (error) {
-      console.log(error);
       return response.status(500).json({ error: 'Error' });
     }
   }
@@ -66,9 +66,9 @@ export default class MovieController {
         include: [{ as: 'scores', model: Score }],
       });
 
-      const moviesMaped = listMovies.map(movie => {
-        const objMovie: IMovie = movie;
-        const numbersMovie = objMovie.scores.reduce(
+      const mappedMovies = listMovies.map(movie => {
+        const objm: IMovie = movie; // Object Movie
+        const numbersMovie = objm.scores.reduce(
           (total, s): any => {
             total.sum += s.score;
             total.count += 1;
@@ -81,12 +81,13 @@ export default class MovieController {
         );
 
         const editedObject = {
-          id: objMovie.id,
-          tt: objMovie.tt,
-          title: objMovie.title,
-          director: objMovie.director,
-          actors: objMovie.actors,
-          genre: objMovie.genre,
+          id: objm.id,
+          tt: objm.tt,
+          title: objm.title,
+          year: objm.year,
+          director: objm.director,
+          actors: objm.actors,
+          genre: objm.genre,
           total_votes: numbersMovie.count,
           average_votes: numbersMovie.sum / numbersMovie.count,
         };
@@ -94,9 +95,8 @@ export default class MovieController {
         return editedObject;
       });
 
-      return response.json(moviesMaped);
+      return response.json(mappedMovies);
     } catch (error) {
-      console.log(error);
       return response.status(500).json({ error: 'Error' });
     }
   }
@@ -106,7 +106,7 @@ export default class MovieController {
     response: Response,
   ): Promise<Response<ICreateMovieDTO>> {
     try {
-      const { tt, title, director, genre, actors } = request.body;
+      const { tt, title, year, director, genre, actors } = request.body;
 
       const findAdmin = await User.findOne({
         where: {
@@ -140,6 +140,7 @@ export default class MovieController {
       const newMovie = await Movie.create({
         tt,
         title,
+        year,
         director,
         genre,
         actors,
@@ -151,6 +152,7 @@ export default class MovieController {
           id: newMovie.id,
           tt: newMovie.tt,
           title: newMovie.title,
+          year: newMovie.year,
           director: newMovie.director,
           genre: newMovie.genre,
           actors: newMovie.actors,
@@ -168,7 +170,7 @@ export default class MovieController {
     response: Response,
   ): Promise<Response<ICreateMovieDTO> | Response> {
     try {
-      const { tt, title, director, genre, actors } = request.body;
+      const { tt, title, year, director, genre, actors } = request.body;
       const { id } = request.params;
 
       const findAdmin = await User.findOne({
@@ -195,6 +197,7 @@ export default class MovieController {
       const updatedMovie = {
         tt: tt || movie.tt,
         title: title || movie.title,
+        year: year || movie.year,
         director: director || movie.director,
         genre: genre || movie.genre,
         actors: actors || movie.actors,
@@ -207,6 +210,7 @@ export default class MovieController {
           id,
           tt: updatedMovie.tt,
           title: updatedMovie.title,
+          year: updatedMovie.year,
           director: updatedMovie.director,
           genre: updatedMovie.genre,
           actors: updatedMovie.actors,
