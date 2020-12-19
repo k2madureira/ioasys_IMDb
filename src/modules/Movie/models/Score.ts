@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable no-param-reassign */
 import Sequelize, { Model } from 'sequelize';
 import database from '@shared/database';
+
+// import User from '@modules/User/models/User';
+// import Movie from './Movie';
 
 class Score extends Model {
   public id!: number;

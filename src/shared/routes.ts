@@ -18,8 +18,12 @@ routes.put('/user/:id', ensureAuthenticated, userController.update);
 routes.delete('/user/:id', ensureAuthenticated, userController.delete);
 
 routes.get('/movie', movieController.list);
+routes.get('/movie/:id', movieController.detail);
 routes.post('/movie', ensureAuthenticated, movieController.create);
 routes.put('/movie/:id', ensureAuthenticated, movieController.update);
+
+routes.post('/movie/:id/vote', ensureAuthenticated, movieController.vote);
+
 /*
 routes.get('/', appointmentController.index);
 routes.get('/appointment', appointmentController.index);

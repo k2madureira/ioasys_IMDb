@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable no-param-reassign */
 import Sequelize, { Model } from 'sequelize';
 import database from '@shared/database';
+
+import Score from './Score';
 
 class Movie extends Model {
   public id!: number;
@@ -39,5 +42,10 @@ Movie.init(
     tableName: 'movies',
   },
 );
+
+Movie.hasMany(Score, {
+  as: 'scores',
+  foreignKey: 'movie_id',
+});
 
 export default Movie;

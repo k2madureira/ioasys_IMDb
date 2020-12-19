@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import User from '@modules/User/models/User';
 import Movie from '../models/Movie';
+import Score from '../models/Score';
 import ICreateMovieDTO from '../dtos/ICreateMovieDTO';
 
 export default class MovieController {
@@ -15,13 +16,38 @@ export default class MovieController {
       const query = filter
         ? {
             where: filter,
+            include: [{ as: 'scores', model: Score }],
           }
-        : {};
+        : {
+            include: [{ as: 'scores', model: Score }],
+          };
 
       const listMovies = await Movie.findAll(query);
 
       return response.json(listMovies);
     } catch (error) {
+      console.log(error);
+      return response.status(500).json({ error: 'Error' });
+    }
+  }
+
+  public async detail(
+    request: Request,
+    response: Response,
+  ): Promise<Response<ICreateMovieDTO>> {
+    try {
+      const { id } = request.params;
+
+      const listMovies = await Movie.findAll({
+        where: {
+          id,
+        },
+        include: [{ as: 'scores', model: Score }],
+      });
+
+      return response.json(listMovies);
+    } catch (error) {
+      console.log(error);
       return response.status(500).json({ error: 'Error' });
     }
   }
@@ -151,35 +177,35 @@ export default class MovieController {
       const { id: movie_id } = request.params;
       const user_id = request.user.id;
 
+      if (!score && score !== 0) {
+        return response.status(401).json({ error: 'Score field is required!' });
+      }
+
       const movie = await Movie.findOne({
-        where: { id },
+        where: { id: movie_id },
       });
 
       if (!movie) {
         return response.status(401).json({ error: 'Movie ID not found!' });
       }
 
-      const updatedMovie = {
-        tt: tt || movie.tt,
-        title: title || movie.title,
-        director: director || movie.director,
-        genre: genre || movie.genre,
-        actors: actors || movie.actors,
-      };
+      if (!Number.isInteger(score) || score < 0 || score > 4) {
+        return response
+          .status(401)
+          .json({ error: 'Vote must be between integers, 0 and 4' });
+      }
 
-      await Movie.update(updatedMovie, { where: { id } });
-
-      return response.status(200).json({
-        User: {
-          id,
-          tt: updatedMovie.tt,
-          title: updatedMovie.title,
-          director: updatedMovie.director,
-          genre: updatedMovie.genre,
-          actors: updatedMovie.actors,
-        },
+      await Score.create({
+        user_id,
+        movie_id,
+        score,
       });
+
+      return response
+        .status(200)
+        .json({ success: 'vote successfully registered' });
     } catch (error) {
+      console.log(error);
       return response.status(500).json({ error: 'Error' });
     }
   }
