@@ -1,15 +1,25 @@
 import request from 'supertest';
 import app from '@shared/app';
 
-describe('Medic', () => {
-  it('Should be able create  a new medic', async () => {
+describe('User', () => {
+  it('Should be able to log in', async () => {
+    const user = await request(app)
+      .post('/user')
+      .send({ email: 'admin@admin.com', password: '123' });
+
+    expect(user.body).toHaveProperty('id');
+  });
+
+  /*
+  it('Should be able create  a new user', async () => {
     const medic = await request(app)
-      .post('/medic')
+      .post('/user')
       .send({ name: '_MEDIC_', specialty_id: '_SPECIALTYID_' });
 
     expect(medic.body).toHaveProperty('id');
   });
 
+  
   it('Should not be able to create a new medic, with empty fields', async () => {
     const medic_1 = await request(app).post('/medic').send({ name: '' });
     const medic_2 = await request(app)
@@ -55,5 +65,5 @@ describe('Medic', () => {
     const medics = await request(app).get('/medic');
 
     expect(medics.body).toHaveProperty('medics');
-  });
+  }); */
 });

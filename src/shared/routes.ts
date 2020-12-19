@@ -24,19 +24,4 @@ routes.put('/movie/:id', ensureAuthenticated, movieController.update);
 
 routes.post('/movie/:id/vote', ensureAuthenticated, movieController.vote);
 
-/*
-routes.get('/', appointmentController.index);
-routes.get('/appointment', appointmentController.index);
-routes.get(
-  '/appointment/User/:id',
-  appointmentController.findUserAppointment,
-);
-routes.get(
-  '/appointment/User/:id/all',
-  appointmentController.findAllUserAppointment,
-);
-routes.post('/appointment', appointmentController.create);
-routes.put('/appointment/:id', appointmentController.update);
-routes.delete('/appointment/:id', appointmentController.delete); */
-
 export default routes;
