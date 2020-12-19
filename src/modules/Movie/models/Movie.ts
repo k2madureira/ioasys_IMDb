@@ -18,6 +18,17 @@ class Movie extends Model {
 
   public actors!: string;
 
+  public scores: [
+    {
+      id: number;
+      user_id: number;
+      movie_id: number;
+      score: number;
+      createdAt: Date;
+      updatedAt: Date;
+    },
+  ];
+
   public readonly createdAt!: Date;
 
   public readonly updatedAt!: Date;

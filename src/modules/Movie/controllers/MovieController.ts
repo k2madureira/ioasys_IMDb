@@ -5,6 +5,27 @@ import Movie from '../models/Movie';
 import Score from '../models/Score';
 import ICreateMovieDTO from '../dtos/ICreateMovieDTO';
 
+interface IMovie {
+  id: number;
+  tt: string;
+  title: string;
+  director: string;
+  genre: string;
+  actors: string;
+  createdAt: Date;
+  updatedAt: Date;
+  scores: [
+    {
+      id: number;
+      user_id: number;
+      movie_id: number;
+      score: number;
+      createdAt: Date;
+      updatedAt: Date;
+    },
+  ];
+}
+
 export default class MovieController {
   public async list(
     request: Request,
@@ -45,7 +66,35 @@ export default class MovieController {
         include: [{ as: 'scores', model: Score }],
       });
 
-      return response.json(listMovies);
+      const moviesMaped = listMovies.map(movie => {
+        const objMovie: IMovie = movie;
+        const numbersMovie = objMovie.scores.reduce(
+          (total, s): any => {
+            total.sum += s.score;
+            total.count += 1;
+            return total;
+          },
+          {
+            count: 0,
+            sum: 0,
+          },
+        );
+
+        const editedObject = {
+          id: objMovie.id,
+          tt: objMovie.tt,
+          title: objMovie.title,
+          director: objMovie.director,
+          actors: objMovie.actors,
+          genre: objMovie.genre,
+          total_votes: numbersMovie.count,
+          average_votes: numbersMovie.sum / numbersMovie.count,
+        };
+
+        return editedObject;
+      });
+
+      return response.json(moviesMaped);
     } catch (error) {
       console.log(error);
       return response.status(500).json({ error: 'Error' });
