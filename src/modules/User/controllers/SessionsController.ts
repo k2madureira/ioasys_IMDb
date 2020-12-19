@@ -21,7 +21,7 @@ export default class SessionsController {
       return response.status(401).json({ error: 'Email not registered.' });
     }
 
-    const passwordMatched = compare(password, user?.password);
+    const passwordMatched = await compare(password, user.passwordHash);
 
     if (!passwordMatched) {
       return response.status(401).json({ error: 'Incorrect password.' });

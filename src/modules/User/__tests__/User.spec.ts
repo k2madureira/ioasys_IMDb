@@ -4,10 +4,10 @@ import app from '@shared/app';
 describe('User', () => {
   it('Should be able to log in', async () => {
     const user = await request(app)
-      .post('/user')
+      .post('/login')
       .send({ email: 'admin@admin.com', password: '123' });
 
-    expect(user.body).toHaveProperty('id');
+    expect(user.body).toHaveProperty('token');
   });
 
   /*

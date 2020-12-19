@@ -15,17 +15,3 @@ module.exports = {
   },
   logging: false,
 };
-
-/* module.exports = {
-  dialect: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  database: 'ioasysIMDb',
-  username: 'postgres',
-  password: 'docker',
-  define: {
-    timestamps: true,
-    underscored: true,
-  },
-};
-*/
