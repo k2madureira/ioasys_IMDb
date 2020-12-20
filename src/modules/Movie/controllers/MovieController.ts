@@ -38,9 +38,27 @@ export default class MovieController {
       const query = filter
         ? {
             where: filter,
+            attributes: [
+              'id',
+              'tt',
+              'title',
+              'year',
+              'director',
+              'genre',
+              'actors',
+            ],
             include: [{ as: 'scores', model: Score }],
           }
         : {
+            attributes: [
+              'id',
+              'tt',
+              'title',
+              'year',
+              'director',
+              'genre',
+              'actors',
+            ],
             include: [{ as: 'scores', model: Score }],
           };
 

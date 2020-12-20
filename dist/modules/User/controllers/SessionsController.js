@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _jsonwebtoken = require("jsonwebtoken");
 
-var _auth = _interopRequireDefault(require("@config/auth"));
+var _auth = _interopRequireDefault(require("../../../config/auth"));
 
 var _bcryptjs = require("bcryptjs");
 

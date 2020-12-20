@@ -19,11 +19,13 @@ class MovieController {
       const filter = request.query;
       const query = filter ? {
         where: filter,
+        attributes: ['id', 'tt', 'title', 'year', 'director', 'genre', 'actors'],
         include: [{
           as: 'scores',
           model: _Score.default
         }]
       } : {
+        attributes: ['id', 'tt', 'title', 'year', 'director', 'genre', 'actors'],
         include: [{
           as: 'scores',
           model: _Score.default
