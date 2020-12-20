@@ -94,8 +94,8 @@
 |2| *Post* | /user | Create an user |
 |3| *Put* | /user/**id** | Update an user |
 |4| *Delete* | /user/**:id** | Disabled user |
-|5| *Get* | /movie | List all movies |
-|6| *Post* | /movie | Register new movie |
+|5| *Post* | /movie | Register new movie |
+|6| *Get* | /movie | List all movies |
 |7| *Put* | /movie/**:id** | Update an movie using **id** |
 |8| *Get* | /movie/**:id** | Detail an movie using **id** |
 |9| *Post* | /movie/**:id**/vote | score a movie using user **id** |
@@ -159,7 +159,7 @@
 
  ------------------------------------------------------------
  
- 2. http://localhost:3333/user/2 **(PUT)**
+ 3. http://localhost:3333/user/2 **(PUT)**
 
 ##### Request [ body: JSON]
 ```
@@ -183,7 +183,7 @@
 
  ------------------------------------------------------------
 
-3. http://localhost:3333/user/2 **(GET)**
+4. http://localhost:3333/user/2 **(DELETE)**
 
 
 ##### Response [JSON]
@@ -196,7 +196,7 @@
 
  ------------------------------------------------------------
 
-4. http://localhost:3333/movie **(POST)**
+5. http://localhost:3333/movie **(POST)**
 
 ##### Request [ body: JSON]
 ```
@@ -228,7 +228,7 @@
 
  ------------------------------------------------------------
  
- 5. http://localhost:3333/movie **(GET)**
+ 6. http://localhost:3333/movie **(GET)**
 
 ##### Response [JSON]
 
@@ -304,38 +304,7 @@
 
  ------------------------------------------------------------
  
- 6. http://localhost:3333/movie **(POST)**
 
-##### Request [ body: JSON]
-```
-{
-	"tt": "1414",
-	"title": "Gladiator",
-	"director":"Ridley Scott",
-	"genre": "Action | Adventure | Drama",
-	"actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
-}
-```
-
-##### Response [JSON]
-
-```
-{
-  "message": "Movie successfully registered ✅",
-  "infos": {
-    "id": 4,
-    "tt": "1414",
-    "title": "Gladiator",
-    "year": null,
-    "director": "Ridley Scott",
-    "genre": "Action | Adventure | Drama",
-    "actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
-  }
-}
- ```
-
- ------------------------------------------------------------
- 
  7. http://localhost:3333/movie/4 **(PUT)**
 
 ##### Request [ body: JSON]
@@ -387,7 +356,7 @@
  ------------------------------------------------------------
  
  
-  8. http://localhost:3333/movie/4/vote **(POST)**
+  9. http://localhost:3333/movie/4/vote **(POST)**
   
 ##### Request [ body: JSON]
 ```
