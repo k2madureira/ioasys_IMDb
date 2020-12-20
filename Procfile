@@ -1,1 +1,1 @@
-web:node dist/shared/server.js
+web: npx sequelize db:migrate:all && node dist/shared/server.js
