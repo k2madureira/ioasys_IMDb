@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "db:migrate": "sequelize db:migrate",
     "build": "babel src --extensions \" .js,.ts\" --out-dir dist --copy-files",
     "start": "node dist/shared/server.js",
     "start:ts": "ts-node -r tsconfig-paths/register src/shared/server.ts",

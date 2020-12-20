@@ -6,6 +6,8 @@ import database from '@shared/database';
 import Score from './Score';
 
 class Movie extends Model {
+  [x: string]: any;
+
   public id!: number;
 
   public tt!: string;

@@ -99,7 +99,7 @@ export default class MovieController {
 
       let sum = 0;
       let count = 0;
-      scores.forEach(m => {
+      scores.forEach((m: { dataValues: { score: number } }) => {
         sum += m.dataValues.score;
         count += 1;
       });
