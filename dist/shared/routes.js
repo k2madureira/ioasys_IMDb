@@ -7,32 +7,31 @@ exports.default = void 0;
 
 var _express = require("express");
 
-var _MedicController = _interopRequireDefault(require("../modules/Medic/controllers/MedicController"));
+var _UserController = _interopRequireDefault(require("../modules/User/controllers/UserController"));
 
-var _AppointmentController = _interopRequireDefault(require("../modules/Appointment/controllers/AppointmentController"));
+var _SessionsController = _interopRequireDefault(require("../modules/User/controllers/SessionsController"));
 
-var _SpecialtyController = _interopRequireDefault(require("../modules/Specialty/controllers/SpecialtyController"));
+var _MovieController = _interopRequireDefault(require("../modules/Movie/controllers/MovieController"));
+
+var _ensureAuthenticated = _interopRequireDefault(require("./middlewares/ensureAuthenticated"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const medicController = new _MedicController.default();
-const appointmentController = new _AppointmentController.default();
-const specialtyController = new _SpecialtyController.default();
+const userController = new _UserController.default();
+const sessionsController = new _SessionsController.default();
+const movieController = new _MovieController.default();
 const routes = (0, _express.Router)();
-routes.post('/medic', medicController.create);
-routes.get('/medic', medicController.index);
-routes.put('/medic/:id', medicController.update);
-routes.delete('/medic/:id', medicController.delete);
-routes.get('/', appointmentController.index);
-routes.get('/appointment', appointmentController.index);
-routes.get('/appointment/medic/:id', appointmentController.findMedicAppointment);
-routes.get('/appointment/medic/:id/all', appointmentController.findAllMedicAppointment);
-routes.post('/appointment', appointmentController.create);
-routes.put('/appointment/:id', appointmentController.update);
-routes.delete('/appointment/:id', appointmentController.delete);
-routes.get('/specialty', specialtyController.index);
-routes.post('/specialty', specialtyController.create);
-routes.put('/specialty/:id', specialtyController.update);
-routes.delete('/specialty/:id', specialtyController.delete);
+routes.post('/login', sessionsController.Authenticate);
+routes.post('/user', _ensureAuthenticated.default, userController.create);
+routes.put('/user/:id', _ensureAuthenticated.default, userController.update);
+routes.delete('/user/:id', _ensureAuthenticated.default, userController.delete);
+routes.get('/movie', movieController.list);
+routes.get('/movie/:id', movieController.detail);
+routes.post('/movie', _ensureAuthenticated.default, movieController.create);
+routes.put('/movie/:id', _ensureAuthenticated.default, movieController.update);
+routes.post('/movie/:id/vote', _ensureAuthenticated.default, movieController.vote); // Routes JEST
+
+routes.delete('/user/jest/:id', _ensureAuthenticated.default, userController.delete_jest);
+routes.delete('/movie/jest/:id', _ensureAuthenticated.default, movieController.delete_jest);
 var _default = routes;
 exports.default = _default;

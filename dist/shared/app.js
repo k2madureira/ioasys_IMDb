@@ -15,6 +15,8 @@ var _AppError = _interopRequireDefault(require("./errors/AppError"));
 
 var _routes = _interopRequireDefault(require("./routes"));
 
+require("./database/conection");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const app = (0, _express.default)();
