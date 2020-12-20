@@ -4,6 +4,8 @@ import { compare, hash } from 'bcryptjs';
 import database from '@shared/database';
 
 class User extends Model {
+  [x: string]: any;
+
   public id!: number;
 
   public name!: string;
@@ -54,8 +56,9 @@ User.init(
 User.addHook(
   'beforeSave',
   async (user: User): Promise<void> => {
-    if (user.password) {
-      user.passwordHash = await hash(user.password, 8);
+    const userData = user.dataValues;
+    if (userData.password) {
+      user.dataValues.passwordHash = await hash(userData.password, 8);
     }
   },
 );
@@ -63,8 +66,9 @@ User.addHook(
 User.addHook(
   'beforeUpdate',
   async (user: User): Promise<void> => {
-    if (user.password) {
-      user.passwordHash = await hash(user.password, 8);
+    const userData = user.dataValues;
+    if (userData.password) {
+      user.dataValues.passwordHash = await hash(userData.password, 8);
     }
   },
 );

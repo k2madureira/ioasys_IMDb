@@ -21,7 +21,9 @@ export default class SessionsController {
       return response.status(401).json({ error: 'Email not registered.' });
     }
 
-    const passwordMatched = await compare(password, user.passwordHash);
+    const userData = user.dataValues;
+
+    const passwordMatched = await compare(password, userData.passwordHash);
 
     if (!passwordMatched) {
       return response.status(401).json({ error: 'Incorrect password.' });
@@ -30,14 +32,14 @@ export default class SessionsController {
     const { secret, expiresIn } = authConfig.jwt;
 
     const token = sign({}, secret, {
-      subject: user.id.toString(),
+      subject: userData.id.toString(),
       expiresIn,
     });
 
     const res = {
       user: {
-        name: user.name,
-        email: user.email,
+        name: userData.name,
+        email: userData.email,
       },
       token,
     };

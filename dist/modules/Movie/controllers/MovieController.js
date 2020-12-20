@@ -134,16 +134,17 @@ class MovieController {
         genre,
         actors
       });
+      const movieData = newMovie.dataValues;
       const responseMovie = {
         message: 'Movie successfully registered ✅',
         infos: {
-          id: newMovie.id,
-          tt: newMovie.tt,
-          title: newMovie.title,
-          year: newMovie.year,
-          director: newMovie.director,
-          genre: newMovie.genre,
-          actors: newMovie.actors
+          id: movieData.id,
+          tt: movieData.tt,
+          title: movieData.title,
+          year: movieData.year,
+          director: movieData.director,
+          genre: movieData.genre,
+          actors: movieData.actors
         }
       };
       return response.json(responseMovie);
@@ -180,18 +181,19 @@ class MovieController {
         });
       }
 
-      const movie = await _Movie.default.findOne({
+      const movieObj = await _Movie.default.findOne({
         where: {
           id
         }
       });
 
-      if (!movie) {
+      if (!movieObj) {
         return response.status(401).json({
           error: 'Movie ID not found!'
         });
       }
 
+      const movie = movieObj.dataValues;
       const updatedMovie = {
         tt: tt || movie.tt,
         title: title || movie.title,

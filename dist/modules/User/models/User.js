@@ -69,13 +69,17 @@ User.init({
   tableName: 'users'
 });
 User.addHook('beforeSave', async user => {
-  if (user.password) {
-    user.passwordHash = await (0, _bcryptjs.hash)(user.password, 8);
+  const userData = user.dataValues;
+
+  if (userData.password) {
+    user.dataValues.passwordHash = await (0, _bcryptjs.hash)(userData.password, 8);
   }
 });
 User.addHook('beforeUpdate', async user => {
-  if (user.password) {
-    user.passwordHash = await (0, _bcryptjs.hash)(user.password, 8);
+  const userData = user.dataValues;
+
+  if (userData.password) {
+    user.dataValues.passwordHash = await (0, _bcryptjs.hash)(userData.password, 8);
   }
 });
 var _default = User;

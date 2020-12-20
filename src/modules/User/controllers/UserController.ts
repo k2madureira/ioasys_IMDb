@@ -51,13 +51,14 @@ export default class UserController {
         disabled: 0,
       });
 
+      const userData = newUser.dataValues;
       const responseUser = {
         message: 'User successfully registered',
         infos: {
-          id: newUser.id,
-          name: newUser.name,
-          email: newUser.email,
-          nickname: newUser.nickname,
+          id: userData.id,
+          name: userData.name,
+          email: userData.email,
+          nickname: userData.nickname,
         },
       };
 
@@ -89,13 +90,15 @@ export default class UserController {
         });
       }
 
-      const user = await User.findOne({
+      const userObj = await User.findOne({
         where: { id },
       });
 
-      if (!user) {
+      if (!userObj) {
         return response.status(401).json({ error: 'User ID not found!' });
       }
+
+      const user = userObj.dataValues;
 
       let newHash = '';
       let compareHash = false;

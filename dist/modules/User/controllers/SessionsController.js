@@ -33,7 +33,8 @@ class SessionsController {
       });
     }
 
-    const passwordMatched = await (0, _bcryptjs.compare)(password, user.passwordHash);
+    const userData = user.dataValues;
+    const passwordMatched = await (0, _bcryptjs.compare)(password, userData.passwordHash);
 
     if (!passwordMatched) {
       return response.status(401).json({
@@ -46,13 +47,13 @@ class SessionsController {
       expiresIn
     } = _auth.default.jwt;
     const token = (0, _jsonwebtoken.sign)({}, secret, {
-      subject: user.id.toString(),
+      subject: userData.id.toString(),
       expiresIn
     });
     const res = {
       user: {
-        name: user.name,
-        email: user.email
+        name: userData.name,
+        email: userData.email
       },
       token
     };
