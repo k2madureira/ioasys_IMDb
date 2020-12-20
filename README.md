@@ -86,6 +86,11 @@
 - [x] **EditorConfig** (Visual Studio Code - Extension)
 
 
+### Future improvements:
+
+- [ ] Creation of actors, directors and genres tables
+- [ ] change of inputs in the insertion of new films, relating to three n * n tables, between actors, directors and genres.
+
 ### Endpoints:
 
 |Number| Type | Route | Definition |
