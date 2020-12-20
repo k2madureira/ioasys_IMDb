@@ -17,8 +17,6 @@
                         |_> UserController.ts
                   |_ dtos
                         |_> ICreateUserDTO.ts
-                  |_ fakes
-                        |_> FakeUser.ts
                   |_ models
                         |_> User.ts
                   |_ repositories
@@ -27,7 +25,6 @@
                  |_ __tests__
                  |_ controllers
                  |_ dtos
-                 |_ fakes
                  |_ models
                  |_ repositories
 
@@ -50,10 +47,10 @@
   | password    |     |      director     |   |   id_movie    |
   | nickname    |     |      genre        |   |   score       |
   | admin       |     |      actors       |   |   created_at  |
-  | disabled    |     |      created_at   |   |   updated_at  | 
-  | created_at  |     |      updated_at   |   |_______________|
-  | updated_at  |     |___________________|
-  |_____________|     
+  | disabled    |     |        year       |   |   updated_at  | 
+  | created_at  |     |     created_at    |   |_______________|
+  |  updated_at |     |     updated_at    | 
+  |_____________|     |___________________|
                     
   
 ```
@@ -93,13 +90,15 @@
 
 |Number| Type | Route | Definition |
 |-|------|-------|------------|
-|1| *Post* | /user | Create an user |
-|2| *Put* | /user/**id** | Update an user |
-|3| *Put* | /user/disabled/**:id** | Disabled user |
-|4| *Post* | /movie | Register new movie |
-|5| *Put* | /movie/**:id** | Update an movie using **id** |
-|6| *Delete* | /movie/**:id** | Delete an movie using **id** |
-|7| *Post* | /movie/vote/**:id** | score a movie using user **id** |
+|1| *Post* | /login | Login |
+|2| *Post* | /user | Create an user |
+|3| *Put* | /user/**id** | Update an user |
+|4| *Delete* | /user/**:id** | Disabled user |
+|5| *Get* | /movie | List all movies |
+|6| *Post* | /movie | Register new movie |
+|7| *Put* | /movie/**:id** | Update an movie using **id** |
+|8| *Get* | /movie/**:id** | Detail an movie using **id** |
+|9| *Post* | /movie/**:id**/vote | score a movie using user **id** |
 
 
 
