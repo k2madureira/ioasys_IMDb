@@ -1,5 +1,7 @@
 # Ioasys IMDb 🌍
-![node](https://user-images.githubusercontent.com/26586585/75612422-f747e380-5b01-11ea-9213-ec9742b66a47.png)
+
+![imdb100](https://user-images.githubusercontent.com/26586585/102727061-1e2a0d00-4302-11eb-9b84-5300443c3348.png)
+
 
 ### Structure:
 
