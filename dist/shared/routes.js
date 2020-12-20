@@ -21,6 +21,7 @@ const userController = new _UserController.default();
 const sessionsController = new _SessionsController.default();
 const movieController = new _MovieController.default();
 const routes = (0, _express.Router)();
+routes.get('/', movieController.list);
 routes.post('/login', sessionsController.Authenticate);
 routes.post('/user', _ensureAuthenticated.default, userController.create);
 routes.put('/user/:id', _ensureAuthenticated.default, userController.update);

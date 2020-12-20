@@ -12,6 +12,8 @@ const movieController = new MovieController();
 
 const routes = Router();
 
+routes.get('/', movieController.list);
+
 routes.post('/login', sessionsController.Authenticate);
 routes.post('/user', ensureAuthenticated, userController.create);
 routes.put('/user/:id', ensureAuthenticated, userController.update);
