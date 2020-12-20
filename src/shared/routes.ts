@@ -24,4 +24,18 @@ routes.put('/movie/:id', ensureAuthenticated, movieController.update);
 
 routes.post('/movie/:id/vote', ensureAuthenticated, movieController.vote);
 
+// Routes JEST
+
+routes.delete(
+  '/user/jest/:id',
+  ensureAuthenticated,
+  userController.delete_jest,
+);
+
+routes.delete(
+  '/movie/jest/:id',
+  ensureAuthenticated,
+  movieController.delete_jest,
+);
+
 export default routes;

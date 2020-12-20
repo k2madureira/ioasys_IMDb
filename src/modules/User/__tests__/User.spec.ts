@@ -1,69 +1,243 @@
 import request from 'supertest';
 import app from '@shared/app';
 
-describe('User', () => {
+let token: string;
+let userToken: string;
+
+beforeAll(async () => {
+  const admin = await request(app)
+    .post('/login')
+    .send({ email: 'admin@admin.com', password: '123' });
+
+  const user = await request(app)
+    .post('/login')
+    .send({ email: 'user@user.com', password: '123' });
+
+  token = admin.body.token;
+  userToken = user.body.token;
+});
+
+describe('\n\n---------------------\n         User\n---------------------', () => {
   it('Should be able to log in', async () => {
-    const user = await request(app)
+    const login = await request(app)
       .post('/login')
       .send({ email: 'admin@admin.com', password: '123' });
 
-    expect(user.body).toHaveProperty('token');
+    expect(login.body).toHaveProperty('token');
   });
 
-  /*
+  it('Should not be able to log in with wrong Email', async () => {
+    const login = await request(app)
+      .post('/login')
+      .send({ email: 'ERROR', password: '123' });
+
+    expect(login.body).toHaveProperty('error');
+  });
+
+  it('Should not be able to log in with wrong password', async () => {
+    const login = await request(app)
+      .post('/login')
+      .send({ email: 'admin@admin.com', password: 'ERROR' });
+
+    expect(login.body).toHaveProperty('error');
+  });
+
   it('Should be able create  a new user', async () => {
-    const medic = await request(app)
+    const user = await request(app)
       .post('/user')
-      .send({ name: '_MEDIC_', specialty_id: '_SPECIALTYID_' });
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMY_',
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
 
-    expect(medic.body).toHaveProperty('id');
+    await request(app)
+      .delete(`/user/jest/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(user.body.infos).toHaveProperty('id');
   });
 
-  
-  it('Should not be able to create a new medic, with empty fields', async () => {
-    const medic_1 = await request(app).post('/medic').send({ name: '' });
-    const medic_2 = await request(app)
-      .post('/medic')
-      .send({ specialty_id: '' });
+  it('Should not be able create  a new user without fields', async () => {
+    const user = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
 
-    expect(medic_1.body).toHaveProperty('error');
-    expect(medic_2.body).toHaveProperty('error');
+    await request(app);
+
+    expect(user.body).toHaveProperty('error');
   });
 
-  it('Should not be able to create a new medic, with wrong specialty_id', async () => {
-    const medic = await request(app)
-      .post('/medic')
-      .send({ name: '_NAME_', specialty_id: '_WRONG_' });
+  it('Should not be able create  a new user with same email', async () => {
+    const user = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMY_',
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
 
-    expect(medic.body).toHaveProperty('error');
+    const user2 = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMY_',
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
+
+    await request(app)
+      .delete(`/user/jest/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(user2.body).toHaveProperty('error');
   });
 
-  it('Should be able to update medic by id', async () => {
-    const medic = await request(app)
-      .put('/medic/_MEDICID_')
-      .send({ name: '_UPDATED_' });
-    expect(medic.body).toHaveProperty('id');
+  it('Should not be able create  a new user if not admin', async () => {
+    const user = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
+
+    expect(user.body).toHaveProperty('error');
   });
 
-  it('Should not be able to update medic by wrong id', async () => {
-    const medic = await request(app)
-      .put('/medic/_WRONG_')
-      .send({ name: '_UPDATED_' });
-    expect(medic.body).toHaveProperty('error');
-  });
-  it('Should be able to delete medic', async () => {
-    const medic = await request(app).delete('/medic/_MEDICID_');
-    expect(medic.body).toHaveProperty('success');
+  it('Should be able update a user', async () => {
+    const user = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMY_',
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
+
+    const updatedUser = await request(app)
+      .put(`/user/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMYUPDATED_',
+        nickname: '_DUMUPDATED_',
+      });
+
+    await request(app)
+      .delete(`/user/jest/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(updatedUser.body.User).toHaveProperty('id');
   });
 
-  it('Should not be able to delete medic with wrong ID', async () => {
-    const medic = await request(app).delete('/medic/_WRONG_');
-    expect(medic.body).toHaveProperty('error');
+  it('Should not be able update a user with wrong id', async () => {
+    const user = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMY_',
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
+
+    const updatedUser = await request(app)
+      .put(`/user/ERROR`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMYUPDATED_',
+        nickname: '_DUMUPDATED_',
+      });
+
+    await request(app)
+      .delete(`/user/jest/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(updatedUser.body).toHaveProperty('error');
   });
 
-  it('Should be able to list medics', async () => {
-    const medics = await request(app).get('/medic');
+  it('Should not be able update a user if not admin', async () => {
+    const user = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMY_',
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
 
-    expect(medics.body).toHaveProperty('medics');
-  }); */
+    const updatedUser = await request(app)
+      .put(`/user/ERROR`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        name: '_DUMMYUPDATED_',
+        nickname: '_DUMUPDATED_',
+      });
+
+    await request(app)
+      .delete(`/user/jest/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(updatedUser.body).toHaveProperty('error');
+  });
+
+  it('Should be able delete a user', async () => {
+    const user = await request(app)
+      .post('/user')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: '_DUMMY_',
+        nickname: '_DUM_',
+        password: '_123_',
+        email: '_DUMMY@DUMMY.COM_',
+        admin: false,
+      });
+
+    const deleted = await request(app)
+      .delete(`/user/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    await request(app)
+      .delete(`/user/jest/${user.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(deleted.body).toHaveProperty('success');
+  });
+
+  it('Should not be able delete a user with wrong id', async () => {
+    const deleted = await request(app)
+      .delete(`/user/ERROR`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(deleted.body).toHaveProperty('error');
+  });
+
+  it('Should not be able delete a user if not admin', async () => {
+    const deleted = await request(app)
+      .delete(`/user/ERROR`)
+      .set('Authorization', `Bearer ${userToken}`);
+
+    expect(deleted.body).toHaveProperty('error');
+  });
 });

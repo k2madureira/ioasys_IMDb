@@ -162,4 +162,33 @@ export default class UserController {
       return response.status(500).json({ error: 'Error' });
     }
   }
+
+  public async delete_jest(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    try {
+      const { id } = request.params;
+
+      if (process.env.NODE_ENV !== 'test') {
+        return response
+          .status(401)
+          .json({ error: 'This route is used only in test' });
+      }
+
+      const user = await User.findOne({
+        where: { id },
+      });
+
+      if (!user) {
+        return response.status(401).json({ error: 'User ID not found!' });
+      }
+
+      await User.destroy({ where: { id } });
+
+      return response.status(200).json({ success: 'deleted' });
+    } catch (error) {
+      return response.status(500).json({ error: 'Error' });
+    }
+  }
 }

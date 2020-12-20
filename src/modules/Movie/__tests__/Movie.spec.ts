@@ -1,239 +1,257 @@
 import request from 'supertest';
 import app from '@shared/app';
 
-describe('Appointment', () => {
-  it('Should be able create  a new appointment', async () => {
-    const appointment = await request(app).post('/appointment').send({
-      name: '_NAME_',
-      species: '_SPECIES_',
-      breed: '_BREED_',
-      medic_id: '_MEDICID_',
-      specialty_id: '_SPECIALTYID_',
-      urgent: false,
-      status: 'Atendido',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
+let token: string;
+let userToken: string;
 
-    expect(appointment.body).toHaveProperty('id');
-  });
+beforeAll(async () => {
+  const admin = await request(app)
+    .post('/login')
+    .send({ email: 'admin@admin.com', password: '123' });
 
-  it('Should be able create  a new appointment without [medic_id]', async () => {
-    const appointment = await request(app).post('/appointment').send({
-      name: '_NAME_',
-      species: '_SPECIES_',
-      breed: '_BREED_',
-      specialty_id: '_SPECIALTYID_',
-      urgent: false,
-      status: 'Atendido',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
+  const user = await request(app)
+    .post('/login')
+    .send({ email: 'user@user.com', password: '123' });
 
-    expect(appointment.body).toHaveProperty('id');
-  });
+  token = admin.body.token;
+  userToken = user.body.token;
+});
 
-  it('Should be able create  a new appointment with wrong [urgent: boolean]', async () => {
-    const appointment = await request(app).post('/appointment').send({
-      name: '_NAME_',
-      species: '_SPECIES_',
-      breed: '_BREED_',
-      specialty_id: '_SPECIALTYID_',
-      urgent: '_WRONG_',
-      status: 'Atendido',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    expect(appointment.body).toHaveProperty('id');
-  });
-
-  it('Should not be able to create a new appointment, with wrong specialty_id', async () => {
-    const appointment = await request(app).post('/appointment').send({
-      name: '_NAME_',
-      species: '_SPECIES_',
-      breed: '_BREED_',
-      medic_id: '_MEDICID_',
-      specialty_id: '_WRONG_',
-      urgent: false,
-      status: 'Atendido',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    expect(appointment.body).toHaveProperty('error');
-  });
-
-  it('Should not be able to create a new appointment, without [name]', async () => {
-    const appointment = await request(app).post('/appointment').send({
-      species: '_SPECIES_',
-      breed: '_BREED_',
-      medic_id: '_MEDICID_',
-      specialty_id: '_SPECIALTYID_',
-      urgent: false,
-      status: 'Atendido',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    expect(appointment.body).toHaveProperty('error');
-  });
-
-  it('Should not be able to create a new appointment, with wrong [status]', async () => {
-    const appointment = await request(app).post('/appointment').send({
-      name: '_NAME_',
-      species: '_SPECIES_',
-      breed: '_BREED_',
-      medic_id: '_MEDICID_',
-      specialty_id: '_SPECIALTYID_',
-      urgent: false,
-      status: '_WRONG_',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    expect(appointment.body).toHaveProperty('error');
-  });
-
-  /* ----------
-   *  UPDATE
-   -----------*/
-
-  it('Should be able update  a appointment', async () => {
-    const appointment = await request(app)
-      .put('/appointment/_APPOINTMENTID_')
+describe('\n\n---------------------\n         Movie\n---------------------', () => {
+  it('Should be able create  a new movie', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
       .send({
-        name: '_NAME_',
-        species: '_SPECIES_',
-        breed: '_BREED_',
-        medic_id: '_MEDICID_',
-        specialty_id: '_SPECIALTYID_',
-        urgent: false,
-        status: 'Atendido',
-        created_at: new Date(),
-        updated_at: new Date(),
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
       });
 
-    expect(appointment.body).toHaveProperty('id');
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(movie.body.infos).toHaveProperty('id');
   });
 
-  it('Should be able to update a appointment, with missing fields', async () => {
-    const appointment = await request(app)
-      .put('/appointment/_APPOINTMENTID_')
+  it('Should not be able create  a new movie without fields', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
       .send({
-        created_at: new Date(),
-        updated_at: new Date(),
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
       });
 
-    expect(appointment.body).toHaveProperty('id');
+    await request(app);
+
+    expect(movie.body).toHaveProperty('error');
   });
 
-  it('Should be able to update a appointment, with wrong field [urgent]', async () => {
-    const appointment = await request(app)
-      .put('/appointment/_APPOINTMENTID_')
+  it('Should not be able create  a new movie with same tt', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
       .send({
-        medic_id: '_MEDICID_',
-        urgent: '_WRONG_',
-        created_at: new Date(),
-        updated_at: new Date(),
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
       });
 
-    expect(appointment.body).toHaveProperty('id');
-  });
-
-  it('Should be able update a appointment with wrong [urgent: boolean]', async () => {
-    const appointment = await request(app)
-      .put('/appointment/_APPOINTMENTID_')
+    const movie2 = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
       .send({
-        name: '_NAME_',
-        species: '_SPECIES_',
-        breed: '_BREED_',
-        specialty_id: '_SPECIALTYID_',
-        urgent: '_WRONG_',
-        status: 'Atendido',
-        created_at: new Date(),
-        updated_at: new Date(),
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
       });
 
-    expect(appointment.body).toHaveProperty('id');
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(movie2.body).toHaveProperty('error');
   });
 
-  it('Should not be able to update a appointment, with wrong ID', async () => {
-    const appointment = await request(app).put('/appointment/_WRONG_').send({
-      species: '_SPECIES_',
-      breed: '_BREED_',
-      medic_id: '_MEDICID_',
-      specialty_id: '_SPECIALTYID_',
-      urgent: false,
-      status: 'Atendido',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    expect(appointment.body).toHaveProperty('error');
-  });
-
-  it('Should not be able to update a appointment, with wrong [status]', async () => {
-    const appointment = await request(app)
-      .put('/appointment/_APPOINTMENTID_')
+  it('Should not be able create  a new movie if not admin', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${userToken}`)
       .send({
-        name: '_NAME_',
-        species: '_SPECIES_',
-        breed: '_BREED_',
-        medic_id: '_MEDICID_',
-        specialty_id: '_SPECIALTYID_',
-        urgent: false,
-        status: '_WRONG_',
-        created_at: new Date(),
-        updated_at: new Date(),
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
       });
 
-    expect(appointment.body).toHaveProperty('error');
+    expect(movie.body).toHaveProperty('error');
   });
 
-  it('Should be able to delete appointment', async () => {
-    const appointment = await request(app).delete(
-      '/appointment/_APPOINTMENTID_',
-    );
-    expect(appointment.body).toHaveProperty('success');
+  it('Should be able update a movie', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
+
+    const updatedMovie = await request(app)
+      .put(`/movie/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: '_DUMMY MOVIE_UPDATED_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
+
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(updatedMovie.body.Movie).toHaveProperty('id');
   });
 
-  it('Should not be able to delete appointment with wrong ID', async () => {
-    const appointment = await request(app).delete('/appointment/_WRONG_');
-    expect(appointment.body).toHaveProperty('error');
+  it('Should not be able update a movie with wrong id', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
+
+    const updatedMovie = await request(app)
+      .put(`/movie/ERROR`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: '_DUMMY MOVIE_UPDATED_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
+
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(updatedMovie.body).toHaveProperty('error');
   });
 
-  it('Should be able to list appointment', async () => {
-    const appointment = await request(app).get('/appointment');
+  it('Should not be able update a movie if not admin', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
 
-    expect(appointment.body).toHaveProperty('appointments');
+    const updatedMovie = await request(app)
+      .put(`/movie/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        title: '_DUMMY MOVIE_UPDATED_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
+
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(updatedMovie.body).toHaveProperty('error');
   });
 
-  it('Should be able to find one appointment for a medic', async () => {
-    const appointment = await request(app).get('/appointment/medic/_MEDICID_');
+  it('Should be able list all movies', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
 
-    expect(appointment.body).toHaveProperty('appointment');
+    const listMovies = await request(app)
+      .get(`/movie`)
+      .set('Authorization', `Bearer ${userToken}`);
+
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(listMovies.body[0]).toHaveProperty('id');
   });
 
-  it('Should not be able find one appointment for a medic, with wrong ID', async () => {
-    const appointment = await request(app).get('/appointment/medic/_WRONG_');
+  it('Should be able list detail from a movie', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
 
-    expect(appointment.body).toHaveProperty('error');
+    const movieDetail = await request(app)
+      .get(`/movie`)
+      .set('Authorization', `Bearer ${userToken}`);
+
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(movieDetail.body[0]).toHaveProperty('id');
   });
 
-  it('Should be able to list all appointments for a medic', async () => {
-    const appointment = await request(app).get(
-      '/appointment/medic/_MEDICID_/all',
-    );
+  it('Should be able vote a movie', async () => {
+    const movie = await request(app)
+      .post('/movie')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        tt: '_DUMMY MOVIE_',
+        title: '_DUMMY MOVIE_',
+        director: '_DUMMY MOVIE_',
+        genre: '_DUMMY MOVIE_',
+        actors: '_DUMMY MOVIE_',
+      });
 
-    expect(appointment.body).toHaveProperty('appointments');
-  });
+    const vote = await request(app)
+      .post(`/movie/${movie.body.infos.id}/vote`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ score: 4 });
 
-  it('Should not be able to list all appointments for a medic, with wrong ID', async () => {
-    const appointment = await request(app).get(
-      '/appointment/medic/_WRONG_/all',
-    );
+    await request(app)
+      .delete(`/movie/jest/${movie.body.infos.id}`)
+      .set('Authorization', `Bearer ${token}`);
 
-    expect(appointment.body).toHaveProperty('error');
+    expect(vote.body).toHaveProperty('success');
   });
 });

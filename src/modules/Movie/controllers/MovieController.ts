@@ -206,7 +206,7 @@ export default class MovieController {
       await Movie.update(updatedMovie, { where: { id } });
 
       return response.status(200).json({
-        User: {
+        Movie: {
           id,
           tt: updatedMovie.tt,
           title: updatedMovie.title,
@@ -258,7 +258,35 @@ export default class MovieController {
         .status(200)
         .json({ success: 'vote successfully registered' });
     } catch (error) {
-      console.log(error);
+      return response.status(500).json({ error: 'Error' });
+    }
+  }
+
+  public async delete_jest(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    try {
+      const { id } = request.params;
+
+      if (process.env.NODE_ENV !== 'test') {
+        return response
+          .status(401)
+          .json({ error: 'This route is used only in test' });
+      }
+
+      const movie = await Movie.findOne({
+        where: { id },
+      });
+
+      if (!movie) {
+        return response.status(401).json({ error: 'movie ID not found!' });
+      }
+
+      await Movie.destroy({ where: { id } });
+
+      return response.status(200).json({ success: 'deleted' });
+    } catch (error) {
       return response.status(500).json({ error: 'Error' });
     }
   }
