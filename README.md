@@ -42,9 +42,9 @@
    _____________       ____________________    _______________
   | Users       |     |      Movies       |   |     scores    | 
   |_____________|     |-------------------|   |_______________|
-  | id_user     |     |     id_movie      |   |               |
-  | name        |     |       title       |   |   id_user     |
-  | password    |     |      director     |   |   id_movie    |
+  | (1) id      |     |     (2) id        |   |      id       |
+  | name        |     |       title       |   | (1) id_user   |
+  | password    |     |      director     |   | (2) id_movie  |
   | nickname    |     |      genre        |   |   score       |
   | admin       |     |      actors       |   |   created_at  |
   | disabled    |     |        year       |   |   updated_at  | 
