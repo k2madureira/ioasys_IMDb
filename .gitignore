@@ -3,5 +3,6 @@ temp/
 build/
 coverage
 .env
+.env.test
 tmp/*
 !tmp/.gitkeep
