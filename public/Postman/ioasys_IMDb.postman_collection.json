@@ -1,0 +1,464 @@
+{
+	"info": {
+		"_postman_id": "5980b682-738a-446f-a6cc-839ede4ae034",
+		"name": "ioasys_IMDb",
+		"description": "API for rating and voting points for movies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\":\"admin@gmail.com\",\r\n\t\"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/login",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "User Login"
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MDA3OTYsImV4cCI6MTYwODU4NzE5Niwic3ViIjoiMSJ9._ewXnJ6cXDwikOHdGEh5Kmp1fJscb3Jidr5hlLLfovQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"USER\",\r\n\t\"nickname\": \"USER\",\r\n\t\"email\":\"user1@user.com\",\r\n\t\"password\": \"123\",\r\n\t\"admin\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/user",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Create a new User\r\n\r\nFields:\r\n\r\n- name;\r\n- nickname;\r\n- email;\r\n- password;\r\n- admin; (true or false)\r\n\r\nNote: The admin field determines whether a user has an administrator's privileges. Only one administrator is able to create new administrators."
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MDA3OTYsImV4cCI6MTYwODU4NzE5Niwic3ViIjoiMSJ9._ewXnJ6cXDwikOHdGEh5Kmp1fJscb3Jidr5hlLLfovQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"USER_UPDATED\",\r\n\t\"nickname\": \"UPDATED_USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/user/2",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"2"
+							]
+						},
+						"description": "update a user"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MDA3OTYsImV4cCI6MTYwODU4NzE5Niwic3ViIjoiMSJ9._ewXnJ6cXDwikOHdGEh5Kmp1fJscb3Jidr5hlLLfovQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/user/2",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"2"
+							]
+						},
+						"description": "Delete a user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movie",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MDA3OTYsImV4cCI6MTYwODU4NzE5Niwic3ViIjoiMSJ9._ewXnJ6cXDwikOHdGEh5Kmp1fJscb3Jidr5hlLLfovQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"tt\": \"3501632\",\r\n\t\"title\": \"Thor: Ragnarok\",\r\n\t\"director\":\" Taika Waititi\",\r\n    \"year\": \"2017\",\r\n\t\"genre\": \"Action | Adventure | Comedy | Fantasy | Sci-Fi\",\r\n\t\"actors\": \"Chris Hemsworth, Tom Hiddleston, Cate Blanchett\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/movie",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"movie"
+							]
+						},
+						"description": "Create a new movie:\r\n\r\nFields:\r\n\r\n- title;\r\n- director;\r\n- year;\r\n- actors;\r\n- genre;\r\n- tt;\r\n\r\nNote: The tt field is the only key available in the URL of the film on the IMDb website.\r\n\r\nExample: https://www.imdb.com/title/tt ---- -> 3501632 <----- /? Ref_ = tt_sims_tt"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MDA3OTYsImV4cCI6MTYwODU4NzE5Niwic3ViIjoiMSJ9._ewXnJ6cXDwikOHdGEh5Kmp1fJscb3Jidr5hlLLfovQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"tt\": \"3501632\",\r\n\t\"title\": \"Thor: Ragnarok\",\r\n\t\"director\":\"Taika Waititi\",\r\n    \"year\": \"2017\",\r\n\t\"genre\": \"Action | Adventure | Comedy | Fantasy | Sci-Fi\",\r\n\t\"actors\": \"Chris Hemsworth, Tom Hiddleston, Cate Blanchett\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/movie/4",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"movie",
+								"4"
+							]
+						},
+						"description": "Update a movie"
+					},
+					"response": []
+				},
+				{
+					"name": "Vote",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MDA3OTYsImV4cCI6MTYwODU4NzE5Niwic3ViIjoiMSJ9._ewXnJ6cXDwikOHdGEh5Kmp1fJscb3Jidr5hlLLfovQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"score\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/movie/4/vote",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"movie",
+								"4",
+								"vote"
+							]
+						},
+						"description": "score movie"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/movie",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"movie"
+							]
+						},
+						"description": "getl all movies"
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ioasysimdb.herokuapp.com/movie/1",
+							"protocol": "https",
+							"host": [
+								"ioasysimdb",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"movie",
+								"1"
+							]
+						},
+						"description": "details of a movie"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwttoken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
