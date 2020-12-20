@@ -17,22 +17,31 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* eslint-disable no-param-reassign */
 class Movie extends _sequelize.Model {
   constructor(...args) {
     super(...args);
-    this.id = void 0;
-    this.tt = void 0;
-    this.title = void 0;
-    this.year = void 0;
-    this.director = void 0;
-    this.genre = void 0;
-    this.actors = void 0;
-    this.scores = void 0;
-    this.createdAt = void 0;
-    this.updatedAt = void 0;
+
+    _defineProperty(this, "id", void 0);
+
+    _defineProperty(this, "tt", void 0);
+
+    _defineProperty(this, "title", void 0);
+
+    _defineProperty(this, "year", void 0);
+
+    _defineProperty(this, "director", void 0);
+
+    _defineProperty(this, "genre", void 0);
+
+    _defineProperty(this, "actors", void 0);
+
+    _defineProperty(this, "scores", void 0);
+
+    _defineProperty(this, "createdAt", void 0);
+
+    _defineProperty(this, "updatedAt", void 0);
   }
 
 }
@@ -43,7 +52,10 @@ Movie.init({
     primaryKey: true,
     autoIncrement: true
   },
-  tt: _sequelize.default.STRING,
+  tt: {
+    type: _sequelize.default.STRING,
+    allowNull: false
+  },
   title: _sequelize.default.STRING,
   year: _sequelize.default.STRING,
   director: _sequelize.default.STRING,

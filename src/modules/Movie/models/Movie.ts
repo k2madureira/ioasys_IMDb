@@ -43,7 +43,10 @@ Movie.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    tt: Sequelize.STRING,
+    tt: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     title: Sequelize.STRING,
     year: Sequelize.STRING,
     director: Sequelize.STRING,

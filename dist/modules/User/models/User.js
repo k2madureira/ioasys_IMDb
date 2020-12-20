@@ -17,20 +17,31 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-/* eslint-disable no-param-reassign */
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 class User extends _sequelize.Model {
   constructor(...args) {
     super(...args);
-    this.id = void 0;
-    this.name = void 0;
-    this.nickname = void 0;
-    this.email = void 0;
-    this.password = void 0;
-    this.passwordHash = void 0;
-    this.admin = void 0;
-    this.disabled = void 0;
-    this.createdAt = void 0;
-    this.updatedAt = void 0;
+
+    _defineProperty(this, "id", void 0);
+
+    _defineProperty(this, "name", void 0);
+
+    _defineProperty(this, "nickname", void 0);
+
+    _defineProperty(this, "email", void 0);
+
+    _defineProperty(this, "password", void 0);
+
+    _defineProperty(this, "passwordHash", void 0);
+
+    _defineProperty(this, "admin", void 0);
+
+    _defineProperty(this, "disabled", void 0);
+
+    _defineProperty(this, "createdAt", void 0);
+
+    _defineProperty(this, "updatedAt", void 0);
   }
 
   async checkPassword(password) {

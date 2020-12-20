@@ -81,39 +81,42 @@ export default class MovieController {
         where: {
           id,
         },
+        attributes: [
+          'id',
+          'tt',
+          'title',
+          'year',
+          'director',
+          'genre',
+          'actors',
+        ],
         include: [{ as: 'scores', model: Score }],
       });
 
-      const mappedMovies = listMovies.map(movie => {
-        const objm: IMovie = movie; // Object Movie
-        const numbersMovie = objm.scores.reduce(
-          (total, s): any => {
-            total.sum += s.score;
-            total.count += 1;
-            return total;
-          },
-          {
-            count: 0,
-            sum: 0,
-          },
-        );
+      const [movie] = listMovies;
+      const data = movie.dataValues;
+      const { scores } = data;
 
-        const editedObject = {
-          id: objm.id,
-          tt: objm.tt,
-          title: objm.title,
-          year: objm.year,
-          director: objm.director,
-          actors: objm.actors,
-          genre: objm.genre,
-          total_votes: numbersMovie.count,
-          average_votes: numbersMovie.sum / numbersMovie.count,
-        };
-
-        return editedObject;
+      let sum = 0;
+      let count = 0;
+      scores.forEach(m => {
+        sum += m.dataValues.score;
+        count += 1;
       });
 
-      return response.json(mappedMovies);
+      const editedMovie = {
+        id: data.id,
+        tt: data.tt,
+        title: data.title,
+        year: data.year,
+        director: data.director,
+        actors: data.actors,
+        genre: data.genre,
+        total_votes: count,
+        average_votes: sum / count,
+      };
+
+      return response.json(editedMovie);
     } catch (error) {
       return response.status(500).json({ error: 'Error' });
     }

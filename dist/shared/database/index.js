@@ -11,18 +11,24 @@ var _database = _interopRequireDefault(require("../../config/database.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable radix */
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 class Database {
   constructor() {
-    this.connection = void 0;
-    this.database = void 0;
-    this.port = void 0;
-    this.dialect = void 0;
-    this.host = void 0;
-    this.username = void 0;
-    this.password = void 0;
+    _defineProperty(this, "connection", void 0);
+
+    _defineProperty(this, "database", void 0);
+
+    _defineProperty(this, "port", void 0);
+
+    _defineProperty(this, "dialect", void 0);
+
+    _defineProperty(this, "host", void 0);
+
+    _defineProperty(this, "username", void 0);
+
+    _defineProperty(this, "password", void 0);
+
     this.init();
     this.database = _database.default.database || 'ioasysIMDb';
     this.dialect = 'postgres';
