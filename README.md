@@ -57,13 +57,13 @@
 
 ### Docs:
 
-1. PostMan ( )
+1. PostMan (https://documenter.getpostman.com/view/9357385/TVsuBSjU )
 2. PostMan Collection ( public/Postman/ioasys.postman_collection.json )
 3. docs
 4. Code Coverage ( ioasys_IMDb/public/coverage/lcov-report/index.html )
 5. Insominia.json
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2f774259b17c79834391)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/0117ef5f890e1b344dfd)
 
 ### Setting up local environment:
 
@@ -105,16 +105,13 @@
 
 #### Exemples:
 
-
-1. http://localhost:3333/user **(POST)**
+1. http://localhost:3333/login **(POST)**
 
 ##### Request [ body: JSON]
 ```
 {
-	"name": "dumy",
-  "password": "123",
-  "nickname": "bob",
-  "admin": true
+	"email":"admin@gmail.com",
+	"password": "123"
 }
 ```
 
@@ -122,20 +119,52 @@
 
 ```
 {
-  "id": "ccf1167d-df15-4281-a68c-3830626b98df",
-  "name": "dumy",
-  "nickname": "bob"
+    "user": {
+        "name": "Lenilson Madureira",
+        "email": "admin@gmail.com"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MDM1NTgsImV4cCI6MTYwODU4OTk1OCwic3ViIjoiMSJ9.bEu0P1Xqtcz9U4aonou-3Ejyr_DvX1l1Y5CdFO9plKw"
+}
+ ```
+
+ ------------------------------------------------------------
+
+
+2. http://localhost:3333/user **(POST)**
+
+##### Request [ body: JSON]
+```
+{
+	"name": "USER",
+	"nickname": "USER",
+	"email":"user1@user.com",
+	"password": "123",
+	"admin": false
+}
+```
+
+##### Response [JSON]
+
+```
+{
+  "message": "User successfully registered",
+  "infos": {
+    "id": 2,
+    "name": "USER",
+	  "nickname": "USER",
+	  "email":"user1@user.com"
+  }
 }
  ```
 
  ------------------------------------------------------------
  
- 2. http://localhost:3333/user/ccf1167d-df15-4281-a68c-3830626b98df **(PUT)**
+ 2. http://localhost:3333/user/2 **(PUT)**
 
 ##### Request [ body: JSON]
 ```
 {
-	"name": "Dummy"
+	"name": "USER_UPDATED"
 }
 ```
 
@@ -143,15 +172,18 @@
 
 ```
 {
-  "id": "ccf1167d-df15-4281-a68c-3830626b98df",
-  "name": "Dummy",
-  "nickname": "bob"
+  "User": {
+    "id": 2,
+    "name": "USER_UPDATED",
+	  "nickname": "USER",
+	  "email":"user1@user.com"
+  }
 }
  ```
 
  ------------------------------------------------------------
 
-3. http://localhost:3333/user/disabled/ccf1167d-df15-4281-a68c-3830626b98df **(GET)**
+3. http://localhost:3333/user/2 **(GET)**
 
 
 ##### Response [JSON]
@@ -169,8 +201,11 @@
 ##### Request [ body: JSON]
 ```
 {
-	"name": "EXAMPLE",
-  "user_id":"ccf1167d-df15-4281-a68c-3830626b98df"
+	"tt": "1414",
+	"title": "Gladiator",
+	"director":"Ridley Scott",
+	"genre": "Action | Adventure | Drama",
+	"actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
 }
 ```
 
@@ -178,12 +213,194 @@
 
 ```
 {
-  "id": "94babbaa-2a7e-4874-815b-5ded5b5269f0",
-  "name": "EXAMPLE",
-  "user": {
-    "id": "ccf1167d-df15-4281-a68c-3830626b98df",
-    "description": "Nutricionista"
+  "message": "Movie successfully registered ✅",
+  "infos": {
+    "id": 4,
+    "tt": "1414",
+    "title": "Gladiator",
+    "year": null,
+    "director": "Ridley Scott",
+    "genre": "Action | Adventure | Drama",
+    "actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
   }
+}
+ ```
+
+ ------------------------------------------------------------
+ 
+ 5. http://localhost:3333/movie **(GET)**
+
+##### Response [JSON]
+
+```
+[
+  {
+    "id": 1,
+    "tt": "4154796",
+    "title": "Avengers: Endgame (Vingadores: Ultimato)",
+    "year": "2019",
+    "director": "Anthony Russo, Joe Russo",
+    "genre": "Action, Adventure, Drama",
+    "actors": "Robert Downey Jr., Chris Evans, Mark Ruffalo",
+    "scores": [
+      {
+        "id": 1,
+        "user_id": 1,
+        "movie_id": 1,
+        "score": 4,
+        "createdAt": "2020-12-19T12:15:54.654Z",
+        "updatedAt": "2020-12-19T12:15:54.654Z"
+      },
+      {
+        "id": 2,
+        "user_id": 4,
+        "movie_id": 1,
+        "score": 2,
+        "createdAt": "2020-12-19T12:30:45.202Z",
+        "updatedAt": "2020-12-19T12:30:45.202Z"
+      },
+      {
+        "id": 3,
+        "user_id": 4,
+        "movie_id": 1,
+        "score": 2,
+        "createdAt": "2020-12-20T15:35:48.667Z",
+        "updatedAt": "2020-12-20T15:35:48.667Z"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "tt": "0120815",
+    "title": "Saving Private Ryan",
+    "year": null,
+    "director": " Steven Spielberg",
+    "genre": "Drama | War",
+    "actors": " Tom Hanks, Matt Damon, Tom Sizemore",
+    "scores": []
+  },
+  {
+    "id": 4,
+    "tt": "55",
+    "title": "Avengers: Endgame (Vingadores: Ultimato)",
+    "year": "2019",
+    "director": "Anthony Russo, Joe Russo",
+    "genre": "Action, Adventure, Drama",
+    "actors": "Robert Downey Jr., Chris Evans, Mark Ruffalo",
+    "scores": []
+  },
+  {
+    "id": 3,
+    "tt": "0172495",
+    "title": "Gladiator",
+    "year": null,
+    "director": "Ridley Scott",
+    "genre": "Action | Adventure | Drama",
+    "actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen",
+    "scores": []
+  }
+]
+ ```
+
+ ------------------------------------------------------------
+ 
+ 6. http://localhost:3333/movie **(POST)**
+
+##### Request [ body: JSON]
+```
+{
+	"tt": "1414",
+	"title": "Gladiator",
+	"director":"Ridley Scott",
+	"genre": "Action | Adventure | Drama",
+	"actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
+}
+```
+
+##### Response [JSON]
+
+```
+{
+  "message": "Movie successfully registered ✅",
+  "infos": {
+    "id": 4,
+    "tt": "1414",
+    "title": "Gladiator",
+    "year": null,
+    "director": "Ridley Scott",
+    "genre": "Action | Adventure | Drama",
+    "actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
+  }
+}
+ ```
+
+ ------------------------------------------------------------
+ 
+ 7. http://localhost:3333/movie/4 **(PUT)**
+
+##### Request [ body: JSON]
+```
+{
+	"tt": "1414",
+	"title": "Gladiator",
+	"director":"Ridley Scott",
+	"genre": "Action | Adventure | Drama",
+	"actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
+}
+```
+
+##### Response [JSON]
+
+```
+{
+  "Movie": {
+    "id": "4",
+    "tt": "1414",
+	  "title": "Gladiator",
+	  "director":"Ridley Scott",
+	  "genre": "Action | Adventure | Drama",
+	  "actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
+  }
+}
+ ```
+
+ ------------------------------------------------------------
+ 
+  8. http://localhost:3333/movie/4 **(GET)**
+
+##### Response [JSON]
+
+```
+{{
+  "id": 4,
+  "tt": "1414",
+	"title": "Gladiator",
+	"director":"Ridley Scott",
+	"genre": "Action | Adventure | Drama",
+	"actors": "Russell Crowe, Joaquin Phoenix, Connie Nielsen"
+  "genre": "Action | Adventure | Drama",
+  "total_votes": 3,
+  "average_votes": 2.6666666666666665
+}
+ ```
+
+ ------------------------------------------------------------
+ 
+ 
+  8. http://localhost:3333/movie/4/vote **(POST)**
+  
+##### Request [ body: JSON]
+```
+{
+	"score": 2
+}
+```
+
+##### Response [JSON]
+
+```
+{
+  "success": "vote successfully registered"
 }
  ```
 
