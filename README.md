@@ -1,4 +1,4 @@
-# Ioasys ✅
+# Ioasys 🎞
 ![imdb100](https://user-images.githubusercontent.com/26586585/102727061-1e2a0d00-4302-11eb-9b84-5300443c3348.png)
 
 
@@ -57,7 +57,7 @@
   
 ```
 
-### Docs:
+### Docs 💾:
 
 1. PostMan (https://documenter.getpostman.com/view/9357385/TVsuBSjU )
 2. PostMan Collection ( public/Postman/ioasys.postman_collection.json )
@@ -67,7 +67,7 @@
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/0117ef5f890e1b344dfd)
 
-### Setting up local environment:
+### Setting up local environment 🏡:
 
 1. Install **Yarn**;
 2. Using terminal, navigate to the folder where the project was cloned and run:<br> **git clone https://github.com/k2madureira/ioasys_IMDb.git**
@@ -75,12 +75,29 @@
 4. Using terminal run **yarn dev:server**, to start the server on port **3333**; (Typescript)
 5. For testing, the **insomnia** software is recommended;
 6. To perform the unit test **yarn test**
+7. Database used **PostgreSQL**, with configuration in the **.env** file
 
-### Tests:
+### .ENV File 🛠:
+
+- [ ] **APP_SECRET** (Using some MD5 generation service, create a key that only you know.)
+
+- [ ] **DB_HOST** (Your database host)
+- [ ] **DB_USER** (Your database user)
+- [ ] **DB_PASS** (Your database password)
+- [ ] **DB_NAME** (Your database name)
+- [ ] **DB_PORT** (Your database port, for PostgreSQL it is usually used at **5432**)
+
+- [ ] **DB_HOST_JEST** (Your test database host)
+- [ ] **DB_USER_JEST** (Your test database User)
+- [ ] **DB_PASS_JEST** (Your test database Password)
+- [ ] **DB_NAME_JEST** (Your test database Name)
+- [ ] **DB_PORT_JEST** (port of your test database, for PostgreSQL it is usually used at **5432**)
+
+### Tests 🎯:
 - [x] **Jest**
 - [x] **Code coverage**
 
-### code formatter / Extensions:
+### code formatter / Extensions 🔧:
 
 - [x] **Eslint** (Airbnb)
 - [x] **Eslint** (Visual Studio Code - Extension)
@@ -88,12 +105,12 @@
 - [x] **EditorConfig** (Visual Studio Code - Extension)
 
 
-### Future improvements:
+### Future improvements 🧱:
 
 - [ ] Creation of actors, directors and genres tables
 - [ ] change of inputs in the insertion of new films, relating to three n * n tables, between actors, directors and genres.
 
-### Endpoints:
+### Endpoints 📌:
 
 |Number| Type | Route | Definition |
 |-|------|-------|------------|
